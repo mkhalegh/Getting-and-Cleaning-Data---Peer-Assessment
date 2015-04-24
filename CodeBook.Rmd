@@ -1,0 +1,660 @@
+Code Book
+========================
+ 
+## Project Description
+One of the most exciting areas in all of data science right now is wearable computing - see for example this article . Companies like Fitbit, Nike, and Jawbone Up are racing to develop the most advanced algorithms to attract new users. The data linked to from the course website represent data collected from the accelerometers from the Samsung Galaxy S smartphone. 
+
+For this project, we should create one R script called run_analysis.R that does the following. 
+1. Merges the training and the test sets to create one data set.
+
+2. Extracts only the measurements on the mean and standard deviation for each measurement.
+
+3. Uses descriptive activity names to name the activities in the data set
+
+4. Appropriately labels the data set with descriptive variable names. 
+
+5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+ 
+## Study design and data processing
+he features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix ‘t’ to denote time) were captured at a constant rate of 50 Hz. and the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) – both using a low pass Butterworth filter.
+
+The body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag).
+
+A Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the ‘f’ to indicate frequency domain signals).
+ 
+### Collection of the raw data
+```{r, echo=FALSE,results='hide', eval=FALSE}
+if(!file.exists("UCI HAR Dataset")) {
+temp <- tempfile()1
+download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip",temp, method="curl")
+file <- unzip(temp)
+unlink(temp)
+}
+```
+
+A full description is available at the site where the data was obtained: 
+
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
+
+Here are the data for the project: 
+
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+ 
+### Notes on the original (raw) data 
+Human Activity Recognition Using Smartphones Dataset
+Version 1.0
+
+Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
+Smartlab - Non Linear Complex Systems Laboratory
+DITEN - Universit‡ degli Studi di Genova.
+Via Opera Pia 11A, I-16145, Genoa, Italy.
+activityrecognition@smartlab.ws
+www.smartlab.ws
+
+
+The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (`WALKING`, `WALKING_UPSTAIRS`, `WALKING_DOWNSTAIRS`, `SITTING`, `STANDING`, `LAYING`) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See 'features_info.txt' for more details. 
+
+For each record it is provided:
+
+- Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.
+
+- Triaxial Angular velocity from the gyroscope. 
+
+- A 561-feature vector with time and frequency domain variables. 
+
+- Its activity label. 
+
+- An identifier of the subject who carried out the experiment.
+
+The dataset includes the following files:
+
+- 'README.txt'
+
+- 'features_info.txt': Shows information about the variables used on the feature vector.
+
+- 'features.txt': List of all features.
+
+- 'activity_labels.txt': Links the class labels with their activity name.
+
+- 'train/X_train.txt': Training set.
+
+- 'train/y_train.txt': Training labels.
+
+- 'test/X_test.txt': Test set.
+
+- 'test/y_test.txt': Test labels.
+
+The following files are available for the train and test data. Their descriptions are equivalent. 
+
+- 'train/subject_train.txt': Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. 
+
+- 'train/Inertial Signals/total_acc_x_train.txt': The acceleration signal from the smartphone accelerometer X axis in standard gravity units 'g'. Every row shows a 128 element vector. The same description applies for the 'total_acc_x_train.txt' and 'total_acc_z_train.txt' files for the Y and Z axis. 
+
+- 'train/Inertial Signals/body_acc_x_train.txt': The body acceleration signal obtained by subtracting the gravity from the total acceleration. 
+
+- 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. 
+
+Notes: 
+
+- Features are normalized and bounded within [-1,1].
+- Each feature vector is a row on the text file.
+
+For more information about this dataset contact: activityrecognition@smartlab.ws
+ 
+## Creating the tidy datafile
+```{r, echo=FALSE,results='hide', eval=FALSE}
+Test  <- read.table(file.path("UCI HAR Dataset", "test" , "X_test.txt" ),header = FALSE)
+Train <- read.table(file.path("UCI HAR Dataset", "train", "X_train.txt"),header = FALSE)
+LabelTest  <- read.table(file.path("UCI HAR Dataset", "test" , "y_test.txt" ),header = FALSE)
+LabelTrain <- read.table(file.path("UCI HAR Dataset", "train", "y_train.txt"),header = FALSE)
+SubjTest  <- read.table(file.path("UCI HAR Dataset", "test" , "subject_test.txt"),header = FALSE)
+SubjTrain <- read.table(file.path("UCI HAR Dataset", "train", "subject_train.txt"),header = FALSE)
+```
+### Guide to create the tidy data file
+
+Following steps are required:
+
+1. Downloading data and unzip.
+
+2. Merging Train and Test sets for eahc of the subject, activity label, and the data.
+
+3. Naming columns accordingly (the data set's columns get names from features.txt).
+
+```{r, echo=FALSE,results='hide', eval=FALSE}
+library(dplyr)
+FeatNames <- read.table(file.path("UCI HAR Dataset", "features.txt"),head=FALSE)
+
+Activity<-rbind(Train, Test)
+names(Activity)<- FeatNames$V2
+
+Label<-rbind(LabelTrain,LabelTest)
+Label<-rename(Label, activitynum=V1)
+
+Subject<-rbind(SubjTrain,SubjTest)
+Subject<-rename(Subject, subject=V1)
+
+tempData<-cbind(Subject, Label)
+Data<-cbind(tempData,Activity)
+``` 
+### Cleaning the data
+Extracting only the columns that include mean and standard deviation and naming activity labels based on descriptive activity names given in `activity_labels.txt`. Next, we label the dataset with descriptive variable names (the abreviations are described).List of the abreviations that are tackled are given here:
+
+1. leading t or f is based on time or frequency measurements.
+
+2. Body = related to body movement.
+
+3. Gravity = acceleration of gravity
+
+4. Acc = accelerometer measurement
+
+5. Gyro = gyroscopic measurements
+
+6. Jerk = sudden movement acceleration
+
+7. Mag = magnitude of movement
+
+8. mean and SD are calculated for each subject for each activity for each mean and SD measurements.
+
+At the end, we create a second, independent tidy data set with the average of each variable for each activity and each subject. To distinguish the averaged values from the original data, I add an ave. prefix to all the column names as a **final touch** of cleaning.
+
+```{r, echo=FALSE,results='hide', eval=FALSE}
+SubData<-Data[,grep("mean\\(\\)|std\\(\\)",names(Data),value=TRUE)]
+tData<-cbind(tempData,SubData)
+
+activityLabels <- read.table(file.path("UCI HAR Dataset", "activity_labels.txt"),header = FALSE)
+temp<-activityLabels$V2
+temp<-as.character(temp)
+tData<-mutate(tData,activitynum=temp[as.integer(Label$activitynum)])
+```
+ 
+```{r, echo=FALSE, results='hide', eval=FALSE}
+names(tData)<-gsub("std()", "SD", names(tData))
+names(tData)<-gsub("mean()", "MEAN", names(tData))
+names(tData)<-gsub("^t", "time", names(tData))
+names(tData)<-gsub("^f", "frequency", names(tData))
+names(tData)<-gsub("Acc", "Accelerometer", names(tData))
+names(tData)<-gsub("Gyro", "Gyroscope", names(tData))
+names(tData)<-gsub("Mag", "Magnitude", names(tData))
+names(tData)<-gsub("BodyBody", "Body", names(tData))
+
+library(plyr)
+Data2<-aggregate(. ~subject + activitynum, tData, mean)
+Data2<-Data2[order(Data2$subject,Data2$activity),]
+new_colNames<-paste("ave", colnames(Data2), sep=".")
+setnames(Data2, old = colnames(Data2[3:ncol(Data2)]), new = new_colNames[3:length(new_colNames)])
+``` 
+## Description of the variables in the TidyData.txt file
+The tidy data set that we created includes the following variables:
+```{r, echo=FALSE, results='hide'}
+Data2<-read.table(file = "TidyData.txt", header = T)
+```
+```{r, echo=FALSE}
+str(Data2)
+```
+
+### Variable 1 (subject) 
+This variable indicates the volunteer index. stored in int class.
+
+### Variable 2 (activitynum)
+This stores the type of activity taken, from 1 `WALKING` 2 `WALKING_UPSTAIRS` 3 `WALKING_DOWNSTAIRS` 4 `SITTING` 5 `STANDING` 6 `LAYING`
+ 
+From Variable 3 on, a full description of the variable and a statistical summary of ebservations is given here:
+### Variable 3 
+### mean acceleration of the body in x-axis 
+```{r, echo=FALSE}
+summary(Data2[,3])
+```
+
+### Variable 4
+### mean acceleration of the body in y-axis 
+```{r, echo=FALSE}
+summary(Data2[,4])
+```
+
+### Variable 5 
+### mean acceleration of the body in z-axis 
+```{r, echo=FALSE}
+summary(Data2[,5])
+```
+
+### Variable 6 
+### std deviation of acceleration of the body in x-axis
+```{r, echo=FALSE}
+summary(Data2[,6])
+```
+
+### Variable 7 
+### std deviation of acceleration of the body in y-axis
+```{r, echo=FALSE}
+summary(Data2[,7])
+```
+
+### Variable 8 
+### std deviation of acceleration of the body in z-axis 
+```{r, echo=FALSE}
+summary(Data2[,8])
+```
+
+### Variable 9 
+### mean acceleration of gravity in x-axis
+```{r, echo=FALSE}
+summary(Data2[,9])
+```
+
+### Variable 10 
+### mean acceleration of gravity in y-axis
+```{r, echo=FALSE}
+summary(Data2[,10])
+```
+
+### Variable 11 
+### mean acceleration of gravity in z-axis
+```{r, echo=FALSE}
+summary(Data2[,11])
+```
+
+### Variable 12 
+### std deviation of acceleration of gravity in x-axis
+```{r, echo=FALSE}
+summary(Data2[,12])
+```
+
+### Variable 13 
+### std deviation of acceleration of gravity in y-axis 
+```{r, echo=FALSE}
+summary(Data2[,13])
+```
+
+### Variable 14 
+### std deviation of acceleration of gravity in z-axis 
+```{r, echo=FALSE}
+summary(Data2[,14])
+```
+
+### Variable 15 
+### mean acceleration during jerk signals of the body in x-axis  
+```{r, echo=FALSE}
+summary(Data2[,15])
+```
+
+### Variable 16 
+### mean acceleration during jerk signals of the body in y-axis   
+```{r, echo=FALSE}
+summary(Data2[,16])
+```
+
+### Variable 17 
+### mean acceleration during jerk signals of the body in z-axis  
+```{r, echo=FALSE}
+summary(Data2[,17])
+```
+
+### Variable 18 
+### std deviation of acceleration during jerk signals of body in x-axis  
+```{r, echo=FALSE}
+summary(Data2[,18])
+```
+
+### Variable 19 
+### std deviation of acceleration during jerk signals of body in y-axis   
+```{r, echo=FALSE}
+summary(Data2[,19])
+```
+
+### Variable 20 
+### std deviation of acceleration during jerk signals of body in z-axis    
+```{r, echo=FALSE}
+summary(Data2[,20])
+```
+
+### Variable 21 
+### mean angular velocity of the body in x-axis      
+```{r, echo=FALSE}
+summary(Data2[,21])
+```
+
+### Variable 22 
+### mean angular velocity of the body in y-axis       
+```{r, echo=FALSE}
+summary(Data2[,22])
+```
+
+### Variable 23 
+### mean angular velocity of the body in z-axis     
+```{r, echo=FALSE}
+summary(Data2[,23])
+```
+
+### Variable 24 
+### std deviation of angular velocity of the body in x-axis     
+```{r, echo=FALSE}
+summary(Data2[,24])
+```
+
+### Variable 25 
+### std deviation of angular velocity of the body in y-axis     
+```{r, echo=FALSE}
+summary(Data2[,25])
+```
+
+### Variable 26 
+### std deviation of angular velocity of the body in z-axis    
+```{r, echo=FALSE}
+summary(Data2[,26])
+```
+
+### Variable 27 
+### mean angular velocity during jerk signals of the body in x-axis    
+```{r, echo=FALSE}
+summary(Data2[,27])
+```
+
+### Variable 28 
+### mean angular velocity during jerk signals of the body in y-axis     
+```{r, echo=FALSE}
+summary(Data2[,28])
+```
+
+### Variable 29 
+### mean angular velocity during jerk signals of the body in z-axis     
+```{r, echo=FALSE}
+summary(Data2[,29])
+```
+
+### Variable 30 
+### std deviation of angular velocity during jerk signals of body in x-axis     
+```{r, echo=FALSE}
+summary(Data2[,30])
+```
+
+### Variable 31 
+### std deviation of angular velocity during jerk signals of body in y-axis     
+```{r, echo=FALSE}
+summary(Data2[,31])
+```
+
+### Variable 32 
+### std deviation of angular velocity during jerk signals of body in z-axis    
+```{r, echo=FALSE}
+summary(Data2[,32])
+```
+
+### Variable 33 
+### mean magnitude of the acceleration of the body   
+```{r, echo=FALSE}
+summary(Data2[,33])
+```
+
+### Variable 34 
+### std deviation of the magnitude of the acceleration of the body
+```{r, echo=FALSE}
+summary(Data2[,34])
+```
+
+### Variable 35 
+### mean magnitude of the acceleration of gravity
+```{r, echo=FALSE}
+summary(Data2[,35])
+```
+
+### Variable 36 
+### std deviation of the magnitude of the acceleration of gravity
+```{r, echo=FALSE}
+summary(Data2[,36])
+```
+
+### Variable 37 
+### mean magnitude of the acceleration of the body during jerk signals
+```{r, echo=FALSE}
+summary(Data2[,37])
+```
+
+### Variable 38 
+### std deviation of the magnitude of the acceleration of the body during jerk signals
+```{r, echo=FALSE}
+summary(Data2[,38])
+```
+
+### Variable 39 
+### mean magnitude of the angular velocity of the body
+```{r, echo=FALSE}
+summary(Data2[,39])
+```
+
+### Variable 40 
+### std deviation of the magnitude of the angular velocity of the body
+```{r, echo=FALSE}
+summary(Data2[,40])
+```
+
+### Variable 41 
+### mean magnitude of the angular velocity of the body during jerk signals
+```{r, echo=FALSE}
+summary(Data2[,41])
+```
+
+### Variable 42 
+### std deviation of the magnitude of the angular velocity of the body during jerk signals
+```{r, echo=FALSE}
+summary(Data2[,42])
+```
+
+### Variable 43 
+### mean frequency domain signals of the acceleration of the body in x-axis
+```{r, echo=FALSE}
+summary(Data2[,43])
+```
+
+### Variable 44 
+### mean frequency domain signals of acceleration of the body in y-axis
+```{r, echo=FALSE}
+summary(Data2[,44])
+```
+
+### Variable 45 
+### mean frequency domain signals acceleration of the body in z-axis
+```{r, echo=FALSE}
+summary(Data2[,45])
+```
+
+### Variable 46 
+### std deviation of the frequency domain signals of acceleration of the body in x-axis  
+```{r, echo=FALSE}
+summary(Data2[,46])
+```
+
+### Variable 47 
+### std deviation of the frequency domain signals of acceleration of the body in y-axis  
+```{r, echo=FALSE}
+summary(Data2[,47])
+```
+
+### Variable 48 
+### std deviation of the frequency domain signals of acceleration of the body in z-axis  
+```{r, echo=FALSE}
+summary(Data2[,48])
+```
+
+### Variable 49 
+### mean frequency domain signals during jerk signals for the acceleration of the body in x-axis   
+```{r, echo=FALSE}
+summary(Data2[,49])
+```
+
+### Variable 50 
+### mean frequency domain signals during jerk signals for the acceleration of the body in y-axis    
+```{r, echo=FALSE}
+summary(Data2[,50])
+```
+
+### Variable 51 
+### mean frequency domain signals during jerk signals for the acceleration of the body in z-axis     
+```{r, echo=FALSE}
+summary(Data2[,51])
+```
+
+### Variable 52 
+### std deviation of the frequency domain signals during jerk signals for the acceleration of the body in x-axis     
+```{r, echo=FALSE}
+summary(Data2[,52])
+```
+
+### Variable 53 
+### std deviation of the frequency domain signals during jerk signals for the acceleration of the body in y-axis      
+```{r, echo=FALSE}
+summary(Data2[,53])
+```
+
+### Variable 54 
+### std deviation of the frequency domain signals during jerk signals for the acceleration of the body in z-axis     
+```{r, echo=FALSE}
+summary(Data2[,54])
+```
+
+### Variable 55 
+### mean frequency domain signals of the angular velocity of the body in x-axis     
+```{r, echo=FALSE}
+summary(Data2[,55])
+```
+
+### Variable 56 
+### mean frequency domain signals of angular velocity of the body in y-axis     
+```{r, echo=FALSE}
+summary(Data2[,56])
+```
+
+### Variable 57 
+### mean frequency domain signals angular velocity of the body in z-axis    
+```{r, echo=FALSE}
+summary(Data2[,57])
+```
+
+### Variable 58 
+### std deviation of the frequency domain signals of angular velocity of the body in x-axis    
+```{r, echo=FALSE}
+summary(Data2[,58])
+```
+
+### Variable 59 
+### std deviation of the frequency domain signals of angular velocity of the body in y-axis    
+```{r, echo=FALSE}
+summary(Data2[,59])
+```
+
+### Variable 60 
+### std deviation of the frequency domain signals of angular velocity of the body in z-axis    
+```{r, echo=FALSE}
+summary(Data2[,60])
+```
+
+### Variable 61 
+### mean magnitude of the frequency domain signals of the acceleration of the body  
+```{r, echo=FALSE}
+summary(Data2[,61])
+```
+
+### Variable 62 
+### std deviation of the frequency domain signals of the magnitude of the acceleration of the body 
+```{r, echo=FALSE}
+summary(Data2[,62])
+```
+
+### Variable 63 
+### mean magnitude of the frequency domain signals of the maganitude of acceleration of the body during jerk signals 
+```{r, echo=FALSE}
+summary(Data2[,63])
+```
+
+### Variable 64 
+### std deviation of the frequency domain signals of the magnitude of the acceleration of the body during jerk signals 
+```{r, echo=FALSE}
+summary(Data2[,64])
+```
+
+### Variable 65 
+### mean magnitude of the frequency domain signals of the angular velocity of the body 
+```{r, echo=FALSE}
+summary(Data2[,65])
+```
+
+### Variable 66 
+### std deviation of the frequency domain signals of the magnitude of the angular velocity of the body 
+```{r, echo=FALSE}
+summary(Data2[,66])
+```
+
+### Variable 67 
+### mean magnitude of the frequency domain signals of the angular velocity of the body during jerk signals 
+```{r, echo=FALSE}
+summary(Data2[,67])
+```
+
+### Variable 68 
+### std deviation of the frequency domain signals of the magnitude of the angular velocity of the body during jerk signals
+
+```{r, echo=FALSE}
+summary(Data2[,68])
+```
+## Annex
+The code that used to read and store the data for this code book is given here:
+
+```{r, results='hide', eval=FALSE }
+if(!file.exists("UCI HAR Dataset")) {
+temp <- tempfile()
+download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip",temp, method="curl")
+file <- unzip(temp)
+unlink(temp)
+```
+
+The codes to tidy-up the data: 
+```{r, results='hide', eval=FALSE}
+Test  <- read.table(file.path("UCI HAR Dataset", "test" , "X_test.txt" ),header = FALSE)
+Train <- read.table(file.path("UCI HAR Dataset", "train", "X_train.txt"),header = FALSE)
+LabelTest  <- read.table(file.path("UCI HAR Dataset", "test" , "y_test.txt" ),header = FALSE)
+LabelTrain <- read.table(file.path("UCI HAR Dataset", "train", "y_train.txt"),header = FALSE)
+SubjTest  <- read.table(file.path("UCI HAR Dataset", "test" , "subject_test.txt"),header = FALSE)
+SubjTrain <- read.table(file.path("UCI HAR Dataset", "train", "subject_train.txt"),header = FALSE)
+
+library(dplyr)
+FeatNames <- read.table(file.path("UCI HAR Dataset", "features.txt"),head=FALSE)
+
+Activity<-rbind(Train, Test)
+names(Activity)<- FeatNames$V2
+
+Label<-rbind(LabelTrain,LabelTest)
+Label<-rename(Label, activitynum=V1)
+
+Subject<-rbind(SubjTrain,SubjTest)
+Subject<-rename(Subject, subject=V1)
+
+tempData<-cbind(Subject, Label)
+Data<-cbind(tempData,Activity)
+
+SubData<-Data[,grep("mean\\(\\)|std\\(\\)",names(Data),value=TRUE)]
+tData<-cbind(tempData,SubData)
+
+activityLabels <- read.table(file.path("UCI HAR Dataset", "activity_labels.txt"),header = FALSE)
+temp<-activityLabels$V2
+temp<-as.character(temp)
+tData<-mutate(tData,activitynum=temp[as.integer(Label$activitynum)])
+```
+
+Codes used for renamings in the tidy data:
+```{r, results='hide', eval=FALSE}
+names(tData)<-gsub("std()", "SD", names(tData))
+names(tData)<-gsub("mean()", "MEAN", names(tData))
+names(tData)<-gsub("^t", "time", names(tData))
+names(tData)<-gsub("^f", "frequency", names(tData))
+names(tData)<-gsub("Acc", "Accelerometer", names(tData))
+names(tData)<-gsub("Gyro", "Gyroscope", names(tData))
+names(tData)<-gsub("Mag", "Magnitude", names(tData))
+names(tData)<-gsub("BodyBody", "Body", names(tData))
+
+library(plyr)
+Data2<-aggregate(. ~subject + activitynum, tData, mean)
+Data2<-Data2[order(Data2$subject,Data2$activity),]
+new_colNames<-paste("ave", colnames(Data2), sep=".")
+setnames(Data2, old = colnames(Data2[3:ncol(Data2)]), new = new_colNames[3:length(new_colNames)])
+```

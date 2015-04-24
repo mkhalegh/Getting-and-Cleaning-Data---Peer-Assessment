@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Code Book</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>Code Book</h1>
+
+<h2>Project Description</h2>
+
+<p>One of the most exciting areas in all of data science right now is wearable computing - see for example this article . Companies like Fitbit, Nike, and Jawbone Up are racing to develop the most advanced algorithms to attract new users. The data linked to from the course website represent data collected from the accelerometers from the Samsung Galaxy S smartphone. </p>
+
+<p>For this project, we should create one R script called run_analysis.R that does the following. 
+1. Merges the training and the test sets to create one data set.</p>
+
+<ol>
+<li><p>Extracts only the measurements on the mean and standard deviation for each measurement.</p></li>
+<li><p>Uses descriptive activity names to name the activities in the data set</p></li>
+<li><p>Appropriately labels the data set with descriptive variable names. </p></li>
+<li><p>From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.</p></li>
+</ol>
+
+<h2>Study design and data processing</h2>
+
+<p>he features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix ‘t’ to denote time) were captured at a constant rate of 50 Hz. and the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) – both using a low pass Butterworth filter.</p>
+
+<p>The body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag).</p>
+
+<p>A Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the ‘f’ to indicate frequency domain signals).</p>
+
+<h3>Collection of the raw data</h3>
+
+<p>A full description is available at the site where the data was obtained: </p>
+
+<p><a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones">http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones</a> </p>
+
+<p>Here are the data for the project: </p>
+
+<p><a href="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip</a> </p>
+
+<h3>Notes on the original (raw) data</h3>
+
+<p>Human Activity Recognition Using Smartphones Dataset
+Version 1.0</p>
+
+<p>Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
+Smartlab - Non Linear Complex Systems Laboratory
+DITEN - Universit‡ degli Studi di Genova.
+Via Opera Pia 11A, I-16145, Genoa, Italy.
+<a href="mailto:activityrecognition@smartlab.ws">activityrecognition@smartlab.ws</a>
+<a href="http://www.smartlab.ws">www.smartlab.ws</a></p>
+
+<p>The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (<code>WALKING</code>, <code>WALKING_UPSTAIRS</code>, <code>WALKING_DOWNSTAIRS</code>, <code>SITTING</code>, <code>STANDING</code>, <code>LAYING</code>) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. </p>
+
+<p>The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain. See &#39;features_info.txt&#39; for more details. </p>
+
+<p>For each record it is provided:</p>
+
+<ul>
+<li><p>Triaxial acceleration from the accelerometer (total acceleration) and the estimated body acceleration.</p></li>
+<li><p>Triaxial Angular velocity from the gyroscope. </p></li>
+<li><p>A 561-feature vector with time and frequency domain variables. </p></li>
+<li><p>Its activity label. </p></li>
+<li><p>An identifier of the subject who carried out the experiment.</p></li>
+</ul>
+
+<p>The dataset includes the following files:</p>
+
+<ul>
+<li><p>&#39;README.txt&#39;</p></li>
+<li><p>&#39;features_info.txt&#39;: Shows information about the variables used on the feature vector.</p></li>
+<li><p>&#39;features.txt&#39;: List of all features.</p></li>
+<li><p>&#39;activity_labels.txt&#39;: Links the class labels with their activity name.</p></li>
+<li><p>&#39;train/X_train.txt&#39;: Training set.</p></li>
+<li><p>&#39;train/y_train.txt&#39;: Training labels.</p></li>
+<li><p>&#39;test/X_test.txt&#39;: Test set.</p></li>
+<li><p>&#39;test/y_test.txt&#39;: Test labels.</p></li>
+</ul>
+
+<p>The following files are available for the train and test data. Their descriptions are equivalent. </p>
+
+<ul>
+<li><p>&#39;train/subject_train.txt&#39;: Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30. </p></li>
+<li><p>&#39;train/Inertial Signals/total_acc_x_train.txt&#39;: The acceleration signal from the smartphone accelerometer X axis in standard gravity units &#39;g&#39;. Every row shows a 128 element vector. The same description applies for the &#39;total_acc_x_train.txt&#39; and &#39;total_acc_z_train.txt&#39; files for the Y and Z axis. </p></li>
+<li><p>&#39;train/Inertial Signals/body_acc_x_train.txt&#39;: The body acceleration signal obtained by subtracting the gravity from the total acceleration. </p></li>
+<li><p>&#39;train/Inertial Signals/body_gyro_x_train.txt&#39;: The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. </p></li>
+</ul>
+
+<p>Notes: </p>
+
+<ul>
+<li>Features are normalized and bounded within [-1,1].</li>
+<li>Each feature vector is a row on the text file.</li>
+</ul>
+
+<p>For more information about this dataset contact: <a href="mailto:activityrecognition@smartlab.ws">activityrecognition@smartlab.ws</a></p>
+
+<h2>Creating the tidy datafile</h2>
+
+<h3>Guide to create the tidy data file</h3>
+
+<p>Following steps are required:</p>
+
+<ol>
+<li><p>Downloading data and unzip.</p></li>
+<li><p>Merging Train and Test sets for eahc of the subject, activity label, and the data.</p></li>
+<li><p>Naming columns accordingly (the data set&#39;s columns get names from features.txt).</p></li>
+</ol>
+
+<h3>Cleaning the data</h3>
+
+<p>Extracting only the columns that include mean and standard deviation and naming activity labels based on descriptive activity names given in <code>activity_labels.txt</code>. Next, we label the dataset with descriptive variable names (the abreviations are described).List of the abreviations that are tackled are given here:</p>
+
+<ol>
+<li><p>leading t or f is based on time or frequency measurements.</p></li>
+<li><p>Body = related to body movement.</p></li>
+<li><p>Gravity = acceleration of gravity</p></li>
+<li><p>Acc = accelerometer measurement</p></li>
+<li><p>Gyro = gyroscopic measurements</p></li>
+<li><p>Jerk = sudden movement acceleration</p></li>
+<li><p>Mag = magnitude of movement</p></li>
+<li><p>mean and SD are calculated for each subject for each activity for each mean and SD measurements.</p></li>
+</ol>
+
+<p>At the end, we create a second, independent tidy data set with the average of each variable for each activity and each subject. To distinguish the averaged values from the original data, I add an ave. prefix to all the column names as a <strong>final touch</strong> of cleaning.</p>
+
+<h2>Description of the variables in the TidyData.txt file</h2>
+
+<p>The tidy data set that we created includes the following variables:</p>
+
+<pre><code>## &#39;data.frame&#39;:    180 obs. of  68 variables:
+##  $ subject                                           : int  1 1 1 1 1 1 2 2 2 2 ...
+##  $ activitynum                                       : Factor w/ 6 levels &quot;LAYING&quot;,&quot;SITTING&quot;,..: 1 2 3 4 5 6 1 2 3 4 ...
+##  $ ave.timeBodyAccelerometer.MEAN...X                : num  0.222 0.261 0.279 0.277 0.289 ...
+##  $ ave.timeBodyAccelerometer.MEAN...Y                : num  -0.04051 -0.00131 -0.01614 -0.01738 -0.00992 ...
+##  $ ave.timeBodyAccelerometer.MEAN...Z                : num  -0.113 -0.105 -0.111 -0.111 -0.108 ...
+##  $ ave.timeBodyAccelerometer.SD...X                  : num  -0.928 -0.977 -0.996 -0.284 0.03 ...
+##  $ ave.timeBodyAccelerometer.SD...Y                  : num  -0.8368 -0.9226 -0.9732 0.1145 -0.0319 ...
+##  $ ave.timeBodyAccelerometer.SD...Z                  : num  -0.826 -0.94 -0.98 -0.26 -0.23 ...
+##  $ ave.timeGravityAccelerometer.MEAN...X             : num  -0.249 0.832 0.943 0.935 0.932 ...
+##  $ ave.timeGravityAccelerometer.MEAN...Y             : num  0.706 0.204 -0.273 -0.282 -0.267 ...
+##  $ ave.timeGravityAccelerometer.MEAN...Z             : num  0.4458 0.332 0.0135 -0.0681 -0.0621 ...
+##  $ ave.timeGravityAccelerometer.SD...X               : num  -0.897 -0.968 -0.994 -0.977 -0.951 ...
+##  $ ave.timeGravityAccelerometer.SD...Y               : num  -0.908 -0.936 -0.981 -0.971 -0.937 ...
+##  $ ave.timeGravityAccelerometer.SD...Z               : num  -0.852 -0.949 -0.976 -0.948 -0.896 ...
+##  $ ave.timeBodyAccelerometerJerk.MEAN...X            : num  0.0811 0.0775 0.0754 0.074 0.0542 ...
+##  $ ave.timeBodyAccelerometerJerk.MEAN...Y            : num  0.003838 -0.000619 0.007976 0.028272 0.02965 ...
+##  $ ave.timeBodyAccelerometerJerk.MEAN...Z            : num  0.01083 -0.00337 -0.00369 -0.00417 -0.01097 ...
+##  $ ave.timeBodyAccelerometerJerk.SD...X              : num  -0.9585 -0.9864 -0.9946 -0.1136 -0.0123 ...
+##  $ ave.timeBodyAccelerometerJerk.SD...Y              : num  -0.924 -0.981 -0.986 0.067 -0.102 ...
+##  $ ave.timeBodyAccelerometerJerk.SD...Z              : num  -0.955 -0.988 -0.992 -0.503 -0.346 ...
+##  $ ave.timeBodyGyroscope.MEAN...X                    : num  -0.0166 -0.0454 -0.024 -0.0418 -0.0351 ...
+##  $ ave.timeBodyGyroscope.MEAN...Y                    : num  -0.0645 -0.0919 -0.0594 -0.0695 -0.0909 ...
+##  $ ave.timeBodyGyroscope.MEAN...Z                    : num  0.1487 0.0629 0.0748 0.0849 0.0901 ...
+##  $ ave.timeBodyGyroscope.SD...X                      : num  -0.874 -0.977 -0.987 -0.474 -0.458 ...
+##  $ ave.timeBodyGyroscope.SD...Y                      : num  -0.9511 -0.9665 -0.9877 -0.0546 -0.1263 ...
+##  $ ave.timeBodyGyroscope.SD...Z                      : num  -0.908 -0.941 -0.981 -0.344 -0.125 ...
+##  $ ave.timeBodyGyroscopeJerk.MEAN...X                : num  -0.1073 -0.0937 -0.0996 -0.09 -0.074 ...
+##  $ ave.timeBodyGyroscopeJerk.MEAN...Y                : num  -0.0415 -0.0402 -0.0441 -0.0398 -0.044 ...
+##  $ ave.timeBodyGyroscopeJerk.MEAN...Z                : num  -0.0741 -0.0467 -0.049 -0.0461 -0.027 ...
+##  $ ave.timeBodyGyroscopeJerk.SD...X                  : num  -0.919 -0.992 -0.993 -0.207 -0.487 ...
+##  $ ave.timeBodyGyroscopeJerk.SD...Y                  : num  -0.968 -0.99 -0.995 -0.304 -0.239 ...
+##  $ ave.timeBodyGyroscopeJerk.SD...Z                  : num  -0.958 -0.988 -0.992 -0.404 -0.269 ...
+##  $ ave.timeBodyAccelerometerMagnitude.MEAN..         : num  -0.8419 -0.9485 -0.9843 -0.137 0.0272 ...
+##  $ ave.timeBodyAccelerometerMagnitude.SD..           : num  -0.7951 -0.9271 -0.9819 -0.2197 0.0199 ...
+##  $ ave.timeGravityAccelerometerMagnitude.MEAN..      : num  -0.8419 -0.9485 -0.9843 -0.137 0.0272 ...
+##  $ ave.timeGravityAccelerometerMagnitude.SD..        : num  -0.7951 -0.9271 -0.9819 -0.2197 0.0199 ...
+##  $ ave.timeBodyAccelerometerJerkMagnitude.MEAN..     : num  -0.9544 -0.9874 -0.9924 -0.1414 -0.0894 ...
+##  $ ave.timeBodyAccelerometerJerkMagnitude.SD..       : num  -0.9282 -0.9841 -0.9931 -0.0745 -0.0258 ...
+##  $ ave.timeBodyGyroscopeMagnitude.MEAN..             : num  -0.8748 -0.9309 -0.9765 -0.161 -0.0757 ...
+##  $ ave.timeBodyGyroscopeMagnitude.SD..               : num  -0.819 -0.935 -0.979 -0.187 -0.226 ...
+##  $ ave.timeBodyGyroscopeJerkMagnitude.MEAN..         : num  -0.963 -0.992 -0.995 -0.299 -0.295 ...
+##  $ ave.timeBodyGyroscopeJerkMagnitude.SD..           : num  -0.936 -0.988 -0.995 -0.325 -0.307 ...
+##  $ ave.frequencyBodyAccelerometer.MEAN...X           : num  -0.9391 -0.9796 -0.9952 -0.2028 0.0382 ...
+##  $ ave.frequencyBodyAccelerometer.MEAN...Y           : num  -0.86707 -0.94408 -0.97707 0.08971 0.00155 ...
+##  $ ave.frequencyBodyAccelerometer.MEAN...Z           : num  -0.883 -0.959 -0.985 -0.332 -0.226 ...
+##  $ ave.frequencyBodyAccelerometer.SD...X             : num  -0.9244 -0.9764 -0.996 -0.3191 0.0243 ...
+##  $ ave.frequencyBodyAccelerometer.SD...Y             : num  -0.834 -0.917 -0.972 0.056 -0.113 ...
+##  $ ave.frequencyBodyAccelerometer.SD...Z             : num  -0.813 -0.934 -0.978 -0.28 -0.298 ...
+##  $ ave.frequencyBodyAccelerometerJerk.MEAN...X       : num  -0.9571 -0.9866 -0.9946 -0.1705 -0.0277 ...
+##  $ ave.frequencyBodyAccelerometerJerk.MEAN...Y       : num  -0.9225 -0.9816 -0.9854 -0.0352 -0.1287 ...
+##  $ ave.frequencyBodyAccelerometerJerk.MEAN...Z       : num  -0.948 -0.986 -0.991 -0.469 -0.288 ...
+##  $ ave.frequencyBodyAccelerometerJerk.SD...X         : num  -0.9642 -0.9875 -0.9951 -0.1336 -0.0863 ...
+##  $ ave.frequencyBodyAccelerometerJerk.SD...Y         : num  -0.932 -0.983 -0.987 0.107 -0.135 ...
+##  $ ave.frequencyBodyAccelerometerJerk.SD...Z         : num  -0.961 -0.988 -0.992 -0.535 -0.402 ...
+##  $ ave.frequencyBodyGyroscope.MEAN...X               : num  -0.85 -0.976 -0.986 -0.339 -0.352 ...
+##  $ ave.frequencyBodyGyroscope.MEAN...Y               : num  -0.9522 -0.9758 -0.989 -0.1031 -0.0557 ...
+##  $ ave.frequencyBodyGyroscope.MEAN...Z               : num  -0.9093 -0.9513 -0.9808 -0.2559 -0.0319 ...
+##  $ ave.frequencyBodyGyroscope.SD...X                 : num  -0.882 -0.978 -0.987 -0.517 -0.495 ...
+##  $ ave.frequencyBodyGyroscope.SD...Y                 : num  -0.9512 -0.9623 -0.9871 -0.0335 -0.1814 ...
+##  $ ave.frequencyBodyGyroscope.SD...Z                 : num  -0.917 -0.944 -0.982 -0.437 -0.238 ...
+##  $ ave.frequencyBodyAccelerometerMagnitude.MEAN..    : num  -0.8618 -0.9478 -0.9854 -0.1286 0.0966 ...
+##  $ ave.frequencyBodyAccelerometerMagnitude.SD..      : num  -0.798 -0.928 -0.982 -0.398 -0.187 ...
+##  $ ave.frequencyBodyAccelerometerJerkMagnitude.MEAN..: num  -0.9333 -0.9853 -0.9925 -0.0571 0.0262 ...
+##  $ ave.frequencyBodyAccelerometerJerkMagnitude.SD..  : num  -0.922 -0.982 -0.993 -0.103 -0.104 ...
+##  $ ave.frequencyBodyGyroscopeMagnitude.MEAN..        : num  -0.862 -0.958 -0.985 -0.199 -0.186 ...
+##  $ ave.frequencyBodyGyroscopeMagnitude.SD..          : num  -0.824 -0.932 -0.978 -0.321 -0.398 ...
+##  $ ave.frequencyBodyGyroscopeJerkMagnitude.MEAN..    : num  -0.942 -0.99 -0.995 -0.319 -0.282 ...
+##  $ ave.frequencyBodyGyroscopeJerkMagnitude.SD..      : num  -0.933 -0.987 -0.995 -0.382 -0.392 ...
+</code></pre>
+
+<h3>Variable 1 (subject)</h3>
+
+<p>This variable indicates the volunteer index. stored in int class.</p>
+
+<h3>Variable 2 (activitynum)</h3>
+
+<p>This stores the type of activity taken, from 1 <code>WALKING</code> 2 <code>WALKING_UPSTAIRS</code> 3 <code>WALKING_DOWNSTAIRS</code> 4 <code>SITTING</code> 5 <code>STANDING</code> 6 <code>LAYING</code></p>
+
+<p>From Variable 3 on, a full description of the variable and a statistical summary of ebservations is given here:</p>
+
+<h3>Variable 3</h3>
+
+<h3>mean acceleration of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.2216  0.2712  0.2770  0.2743  0.2800  0.3015
+</code></pre>
+
+<h3>Variable 4</h3>
+
+<h3>mean acceleration of the body in y-axis</h3>
+
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -0.040510 -0.020020 -0.017260 -0.017880 -0.014940 -0.001308
+</code></pre>
+
+<h3>Variable 5</h3>
+
+<h3>mean acceleration of the body in z-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.15250 -0.11210 -0.10820 -0.10920 -0.10440 -0.07538
+</code></pre>
+
+<h3>Variable 6</h3>
+
+<h3>std deviation of acceleration of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9961 -0.9799 -0.7526 -0.5577 -0.1984  0.6269
+</code></pre>
+
+<h3>Variable 7</h3>
+
+<h3>std deviation of acceleration of the body in y-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.99020 -0.94210 -0.50900 -0.46050 -0.03077  0.61690
+</code></pre>
+
+<h3>Variable 8</h3>
+
+<h3>std deviation of acceleration of the body in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9877 -0.9498 -0.6518 -0.5756 -0.2306  0.6090
+</code></pre>
+
+<h3>Variable 9</h3>
+
+<h3>mean acceleration of gravity in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.6800  0.8376  0.9208  0.6975  0.9425  0.9745
+</code></pre>
+
+<h3>Variable 10</h3>
+
+<h3>mean acceleration of gravity in y-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.47990 -0.23320 -0.12780 -0.01621  0.08773  0.95660
+</code></pre>
+
+<h3>Variable 11</h3>
+
+<h3>mean acceleration of gravity in z-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.49510 -0.11730  0.02384  0.07413  0.14950  0.95790
+</code></pre>
+
+<h3>Variable 12</h3>
+
+<h3>std deviation of acceleration of gravity in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9968 -0.9825 -0.9695 -0.9638 -0.9509 -0.8296
+</code></pre>
+
+<h3>Variable 13</h3>
+
+<h3>std deviation of acceleration of gravity in y-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9942 -0.9711 -0.9590 -0.9524 -0.9370 -0.6436
+</code></pre>
+
+<h3>Variable 14</h3>
+
+<h3>std deviation of acceleration of gravity in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9910 -0.9605 -0.9450 -0.9364 -0.9180 -0.6102
+</code></pre>
+
+<h3>Variable 15</h3>
+
+<h3>mean acceleration during jerk signals of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 0.04269 0.07396 0.07640 0.07947 0.08330 0.13020
+</code></pre>
+
+<h3>Variable 16</h3>
+
+<h3>mean acceleration during jerk signals of the body in y-axis</h3>
+
+<pre><code>##       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
+## -0.0386900  0.0004664  0.0094700  0.0075650  0.0134000  0.0568200
+</code></pre>
+
+<h3>Variable 17</h3>
+
+<h3>mean acceleration during jerk signals of the body in z-axis</h3>
+
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -0.067460 -0.010600 -0.003861 -0.004953  0.001958  0.038050
+</code></pre>
+
+<h3>Variable 18</h3>
+
+<h3>std deviation of acceleration during jerk signals of body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9946 -0.9832 -0.8104 -0.5949 -0.2233  0.5443
+</code></pre>
+
+<h3>Variable 19</h3>
+
+<h3>std deviation of acceleration during jerk signals of body in y-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9895 -0.9724 -0.7756 -0.5654 -0.1483  0.3553
+</code></pre>
+
+<h3>Variable 20</h3>
+
+<h3>std deviation of acceleration during jerk signals of body in z-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.99330 -0.98270 -0.88370 -0.73600 -0.51210  0.03102
+</code></pre>
+
+<h3>Variable 21</h3>
+
+<h3>mean angular velocity of the body in x-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.20580 -0.04712 -0.02871 -0.03244 -0.01676  0.19270
+</code></pre>
+
+<h3>Variable 22</h3>
+
+<h3>mean angular velocity of the body in y-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.20420 -0.08955 -0.07318 -0.07426 -0.06113  0.02747
+</code></pre>
+
+<h3>Variable 23</h3>
+
+<h3>mean angular velocity of the body in z-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.07245  0.07475  0.08512  0.08744  0.10180  0.17910
+</code></pre>
+
+<h3>Variable 24</h3>
+
+<h3>std deviation of angular velocity of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9943 -0.9735 -0.7890 -0.6916 -0.4414  0.2677
+</code></pre>
+
+<h3>Variable 25</h3>
+
+<h3>std deviation of angular velocity of the body in y-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9942 -0.9629 -0.8017 -0.6533 -0.4196  0.4765
+</code></pre>
+
+<h3>Variable 26</h3>
+
+<h3>std deviation of angular velocity of the body in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9855 -0.9609 -0.8010 -0.6164 -0.3106  0.5649
+</code></pre>
+
+<h3>Variable 27</h3>
+
+<h3>mean angular velocity during jerk signals of the body in x-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.15720 -0.10320 -0.09868 -0.09606 -0.09110 -0.02209
+</code></pre>
+
+<h3>Variable 28</h3>
+
+<h3>mean angular velocity during jerk signals of the body in y-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.07681 -0.04552 -0.04112 -0.04269 -0.03842 -0.01320
+</code></pre>
+
+<h3>Variable 29</h3>
+
+<h3>mean angular velocity during jerk signals of the body in z-axis</h3>
+
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -0.092500 -0.061720 -0.053430 -0.054800 -0.048980 -0.006941
+</code></pre>
+
+<h3>Variable 30</h3>
+
+<h3>std deviation of angular velocity during jerk signals of body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9965 -0.9800 -0.8396 -0.7036 -0.4629  0.1791
+</code></pre>
+
+<h3>Variable 31</h3>
+
+<h3>std deviation of angular velocity during jerk signals of body in y-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9971 -0.9832 -0.8942 -0.7636 -0.5861  0.2959
+</code></pre>
+
+<h3>Variable 32</h3>
+
+<h3>std deviation of angular velocity during jerk signals of body in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9954 -0.9848 -0.8610 -0.7096 -0.4741  0.1932
+</code></pre>
+
+<h3>Variable 33</h3>
+
+<h3>mean magnitude of the acceleration of the body</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9865 -0.9573 -0.4829 -0.4973 -0.0919  0.6446
+</code></pre>
+
+<h3>Variable 34</h3>
+
+<h3>std deviation of the magnitude of the acceleration of the body</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9865 -0.9430 -0.6074 -0.5439 -0.2090  0.4284
+</code></pre>
+
+<h3>Variable 35</h3>
+
+<h3>mean magnitude of the acceleration of gravity</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9865 -0.9573 -0.4829 -0.4973 -0.0919  0.6446
+</code></pre>
+
+<h3>Variable 36</h3>
+
+<h3>std deviation of the magnitude of the acceleration of gravity</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9865 -0.9430 -0.6074 -0.5439 -0.2090  0.4284
+</code></pre>
+
+<h3>Variable 37</h3>
+
+<h3>mean magnitude of the acceleration of the body during jerk signals</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9928 -0.9807 -0.8168 -0.6079 -0.2456  0.4345
+</code></pre>
+
+<h3>Variable 38</h3>
+
+<h3>std deviation of the magnitude of the acceleration of the body during jerk signals</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9946 -0.9765 -0.8014 -0.5842 -0.2173  0.4506
+</code></pre>
+
+<h3>Variable 39</h3>
+
+<h3>mean magnitude of the angular velocity of the body</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9807 -0.9461 -0.6551 -0.5652 -0.2159  0.4180
+</code></pre>
+
+<h3>Variable 40</h3>
+
+<h3>std deviation of the magnitude of the angular velocity of the body</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9814 -0.9476 -0.7420 -0.6304 -0.3602  0.3000
+</code></pre>
+
+<h3>Variable 41</h3>
+
+<h3>mean magnitude of the angular velocity of the body during jerk signals</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.99730 -0.98520 -0.86480 -0.73640 -0.51190  0.08758
+</code></pre>
+
+<h3>Variable 42</h3>
+
+<h3>std deviation of the magnitude of the angular velocity of the body during jerk signals</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9977 -0.9805 -0.8809 -0.7550 -0.5767  0.2502
+</code></pre>
+
+<h3>Variable 43</h3>
+
+<h3>mean frequency domain signals of the acceleration of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9952 -0.9787 -0.7691 -0.5758 -0.2174  0.5370
+</code></pre>
+
+<h3>Variable 44</h3>
+
+<h3>mean frequency domain signals of acceleration of the body in y-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.98900 -0.95360 -0.59500 -0.48870 -0.06341  0.52420
+</code></pre>
+
+<h3>Variable 45</h3>
+
+<h3>mean frequency domain signals acceleration of the body in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9895 -0.9619 -0.7236 -0.6297 -0.3183  0.2807
+</code></pre>
+
+<h3>Variable 46</h3>
+
+<h3>std deviation of the frequency domain signals of acceleration of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9966 -0.9820 -0.7470 -0.5522 -0.1966  0.6585
+</code></pre>
+
+<h3>Variable 47</h3>
+
+<h3>std deviation of the frequency domain signals of acceleration of the body in y-axis</h3>
+
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+## -0.99070 -0.94040 -0.51340 -0.48150 -0.07913  0.56020
+</code></pre>
+
+<h3>Variable 48</h3>
+
+<h3>std deviation of the frequency domain signals of acceleration of the body in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9872 -0.9459 -0.6441 -0.5824 -0.2655  0.6871
+</code></pre>
+
+<h3>Variable 49</h3>
+
+<h3>mean frequency domain signals during jerk signals for the acceleration of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9946 -0.9828 -0.8126 -0.6139 -0.2820  0.4743
+</code></pre>
+
+<h3>Variable 50</h3>
+
+<h3>mean frequency domain signals during jerk signals for the acceleration of the body in y-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9894 -0.9725 -0.7817 -0.5882 -0.1963  0.2767
+</code></pre>
+
+<h3>Variable 51</h3>
+
+<h3>mean frequency domain signals during jerk signals for the acceleration of the body in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9920 -0.9796 -0.8707 -0.7144 -0.4697  0.1578
+</code></pre>
+
+<h3>Variable 52</h3>
+
+<h3>std deviation of the frequency domain signals during jerk signals for the acceleration of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9951 -0.9847 -0.8254 -0.6121 -0.2475  0.4768
+</code></pre>
+
+<h3>Variable 53</h3>
+
+<h3>std deviation of the frequency domain signals during jerk signals for the acceleration of the body in y-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9905 -0.9737 -0.7852 -0.5707 -0.1685  0.3498
+</code></pre>
+
+<h3>Variable 54</h3>
+
+<h3>std deviation of the frequency domain signals during jerk signals for the acceleration of the body in z-axis</h3>
+
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -0.993100 -0.983700 -0.895100 -0.756500 -0.543800 -0.006236
+</code></pre>
+
+<h3>Variable 55</h3>
+
+<h3>mean frequency domain signals of the angular velocity of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9931 -0.9697 -0.7300 -0.6367 -0.3387  0.4750
+</code></pre>
+
+<h3>Variable 56</h3>
+
+<h3>mean frequency domain signals of angular velocity of the body in y-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9940 -0.9700 -0.8141 -0.6767 -0.4458  0.3288
+</code></pre>
+
+<h3>Variable 57</h3>
+
+<h3>mean frequency domain signals angular velocity of the body in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9860 -0.9624 -0.7909 -0.6044 -0.2635  0.4924
+</code></pre>
+
+<h3>Variable 58</h3>
+
+<h3>std deviation of the frequency domain signals of angular velocity of the body in x-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9947 -0.9750 -0.8086 -0.7110 -0.4813  0.1966
+</code></pre>
+
+<h3>Variable 59</h3>
+
+<h3>std deviation of the frequency domain signals of angular velocity of the body in y-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9944 -0.9602 -0.7964 -0.6454 -0.4154  0.6462
+</code></pre>
+
+<h3>Variable 60</h3>
+
+<h3>std deviation of the frequency domain signals of angular velocity of the body in z-axis</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9867 -0.9643 -0.8224 -0.6577 -0.3916  0.5225
+</code></pre>
+
+<h3>Variable 61</h3>
+
+<h3>mean magnitude of the frequency domain signals of the acceleration of the body</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9868 -0.9560 -0.6703 -0.5365 -0.1622  0.5866
+</code></pre>
+
+<h3>Variable 62</h3>
+
+<h3>std deviation of the frequency domain signals of the magnitude of the acceleration of the body</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9876 -0.9452 -0.6513 -0.6210 -0.3654  0.1787
+</code></pre>
+
+<h3>Variable 63</h3>
+
+<h3>mean magnitude of the frequency domain signals of the maganitude of acceleration of the body during jerk signals</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9940 -0.9770 -0.7940 -0.5756 -0.1872  0.5384
+</code></pre>
+
+<h3>Variable 64</h3>
+
+<h3>std deviation of the frequency domain signals of the magnitude of the acceleration of the body during jerk signals</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9944 -0.9752 -0.8126 -0.5992 -0.2668  0.3163
+</code></pre>
+
+<h3>Variable 65</h3>
+
+<h3>mean magnitude of the frequency domain signals of the angular velocity of the body</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9865 -0.9616 -0.7657 -0.6671 -0.4087  0.2040
+</code></pre>
+
+<h3>Variable 66</h3>
+
+<h3>std deviation of the frequency domain signals of the magnitude of the angular velocity of the body</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9815 -0.9488 -0.7727 -0.6723 -0.4277  0.2367
+</code></pre>
+
+<h3>Variable 67</h3>
+
+<h3>mean magnitude of the frequency domain signals of the angular velocity of the body during jerk signals</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9976 -0.9813 -0.8779 -0.7564 -0.5831  0.1466
+</code></pre>
+
+<h3>Variable 68</h3>
+
+<h3>std deviation of the frequency domain signals of the magnitude of the angular velocity of the body during jerk signals</h3>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.9976 -0.9802 -0.8941 -0.7715 -0.6081  0.2878
+</code></pre>
+
+<h2>Annex</h2>
+
+<p>The code that used to read and store the data for this code book is given here:</p>
+
+<pre><code class="r">if(!file.exists(&quot;UCI HAR Dataset&quot;)) {
+temp &lt;- tempfile()
+download.file(&quot;https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip&quot;,temp, method=&quot;curl&quot;)
+file &lt;- unzip(temp)
+unlink(temp)
+</code></pre>
+
+<p>The codes to tidy-up the data: </p>
+
+<pre><code class="r">Test  &lt;- read.table(file.path(&quot;UCI HAR Dataset&quot;, &quot;test&quot; , &quot;X_test.txt&quot; ),header = FALSE)
+Train &lt;- read.table(file.path(&quot;UCI HAR Dataset&quot;, &quot;train&quot;, &quot;X_train.txt&quot;),header = FALSE)
+LabelTest  &lt;- read.table(file.path(&quot;UCI HAR Dataset&quot;, &quot;test&quot; , &quot;y_test.txt&quot; ),header = FALSE)
+LabelTrain &lt;- read.table(file.path(&quot;UCI HAR Dataset&quot;, &quot;train&quot;, &quot;y_train.txt&quot;),header = FALSE)
+SubjTest  &lt;- read.table(file.path(&quot;UCI HAR Dataset&quot;, &quot;test&quot; , &quot;subject_test.txt&quot;),header = FALSE)
+SubjTrain &lt;- read.table(file.path(&quot;UCI HAR Dataset&quot;, &quot;train&quot;, &quot;subject_train.txt&quot;),header = FALSE)
+
+library(dplyr)
+FeatNames &lt;- read.table(file.path(&quot;UCI HAR Dataset&quot;, &quot;features.txt&quot;),head=FALSE)
+
+Activity&lt;-rbind(Train, Test)
+names(Activity)&lt;- FeatNames$V2
+
+Label&lt;-rbind(LabelTrain,LabelTest)
+Label&lt;-rename(Label, activitynum=V1)
+
+Subject&lt;-rbind(SubjTrain,SubjTest)
+Subject&lt;-rename(Subject, subject=V1)
+
+tempData&lt;-cbind(Subject, Label)
+Data&lt;-cbind(tempData,Activity)
+
+SubData&lt;-Data[,grep(&quot;mean\\(\\)|std\\(\\)&quot;,names(Data),value=TRUE)]
+tData&lt;-cbind(tempData,SubData)
+
+activityLabels &lt;- read.table(file.path(&quot;UCI HAR Dataset&quot;, &quot;activity_labels.txt&quot;),header = FALSE)
+temp&lt;-activityLabels$V2
+temp&lt;-as.character(temp)
+tData&lt;-mutate(tData,activitynum=temp[as.integer(Label$activitynum)])
+</code></pre>
+
+<p>Codes used for renamings in the tidy data:</p>
+
+<pre><code class="r">names(tData)&lt;-gsub(&quot;std()&quot;, &quot;SD&quot;, names(tData))
+names(tData)&lt;-gsub(&quot;mean()&quot;, &quot;MEAN&quot;, names(tData))
+names(tData)&lt;-gsub(&quot;^t&quot;, &quot;time&quot;, names(tData))
+names(tData)&lt;-gsub(&quot;^f&quot;, &quot;frequency&quot;, names(tData))
+names(tData)&lt;-gsub(&quot;Acc&quot;, &quot;Accelerometer&quot;, names(tData))
+names(tData)&lt;-gsub(&quot;Gyro&quot;, &quot;Gyroscope&quot;, names(tData))
+names(tData)&lt;-gsub(&quot;Mag&quot;, &quot;Magnitude&quot;, names(tData))
+names(tData)&lt;-gsub(&quot;BodyBody&quot;, &quot;Body&quot;, names(tData))
+
+library(plyr)
+Data2&lt;-aggregate(. ~subject + activitynum, tData, mean)
+Data2&lt;-Data2[order(Data2$subject,Data2$activity),]
+new_colNames&lt;-paste(&quot;ave&quot;, colnames(Data2), sep=&quot;.&quot;)
+setnames(Data2, old = colnames(Data2[3:ncol(Data2)]), new = new_colNames[3:length(new_colNames)])
+</code></pre>
+
+</body>
+
+</html>
